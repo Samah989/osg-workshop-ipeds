@@ -1,0 +1,39 @@
+# ---------------------------------------------------------------------------
+# HTCondor submit file: IPEDS RQ2 regression on OSPool.
+# Target: ap40.uw.osg-htc.org
+# Usage:  condor_submit run_regression.submit
+# ---------------------------------------------------------------------------
+
+# 1. Container  -  Ubuntu 20.04 from the OSG CVMFS repo. This gives the job
+#    a known base OS with Python 3.8 preinstalled.
+container_image = /cvmfs/singularity.opensciencegrid.org/opensciencegrid/osgvo-ubuntu-20.04:latest
+
+# 2. What to run.
+executable = run_regression.sh
+
+# 3. What to ship UP with the job, and what to bring BACK when it exits.
+transfer_input_files    = run_regression.py, requirements-osg.txt, src, data
+transfer_output_files   = results
+should_transfer_files   = YES
+when_to_transfer_output = ON_EXIT
+
+# 4. Resource request. Stay modest  -  OSPool will match faster.
+request_cpus   = 2
+request_memory = 4 GB
+request_disk   = 4 GB
+
+# 5. OSPool categorization  -  required. Medium = ≤10h wallclock.
++JobDurationCategory = "Medium"
+
+# 6. Retry twice if the job is evicted (spot-like scheduling).
+max_retries = 2
+
+# 7. Log everything for debugging.
+log             = logs/regress.$(Cluster).log
+output          = logs/regress.$(Cluster).out
+error           = logs/regress.$(Cluster).err
+stream_output   = True
+stream_error    = True
+
+# 8. Queue one instance.
+queue 1

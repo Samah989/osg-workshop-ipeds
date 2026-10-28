@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+results/
+osg/deps/
+osg/logs/
+*.log
+*.err
+*.out
