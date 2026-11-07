@@ -1,0 +1,15 @@
+# Lesson 1: first job. Runs hello.sh on one OSPool execute node.
+
+executable = hello.sh
+
+log    = logs/hello.$(Cluster).log
+output = logs/hello.$(Cluster).out
+error  = logs/hello.$(Cluster).err
+
+request_cpus   = 1
+request_memory = 1 GB
+request_disk   = 1 GB
+
++JobDurationCategory = "Medium"
+
+queue 1

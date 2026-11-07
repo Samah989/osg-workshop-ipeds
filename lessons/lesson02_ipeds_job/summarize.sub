@@ -1,0 +1,22 @@
+# Lesson 2: run a Python summary on one IPEDS parquet file.
+
+container_image = /cvmfs/singularity.opensciencegrid.org/opensciencegrid/osgvo-ubuntu-20.04:latest
+
+executable = run_summarize.sh
+
+transfer_input_files    = summarize.py, directory_2015.parquet
+transfer_output_files   = results
+should_transfer_files   = YES
+when_to_transfer_output = ON_EXIT
+
+log    = logs/summarize.$(Cluster).log
+output = logs/summarize.$(Cluster).out
+error  = logs/summarize.$(Cluster).err
+
+request_cpus   = 1
+request_memory = 2 GB
+request_disk   = 2 GB
+
++JobDurationCategory = "Medium"
+
+queue 1
